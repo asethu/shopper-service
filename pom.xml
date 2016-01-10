@@ -96,7 +96,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--<mainClass>com.instacart.shopper.ServiceMain</mainClass>-->
+                    <!-- <mainClass>com.instacart.shopper.ServiceMain</mainClass> -->
                 </configuration>
             </plugin>
         </plugins>
