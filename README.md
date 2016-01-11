@@ -33,6 +33,12 @@ Once the servce has been successfully started, you will see something like this 
 http://localhost:9090/
 ```
 
+The application log for the service can be found under the directory `target`.
+
+```
+./target/application.log
+```
+
 ## REST Endpoints
 
 ### Creating an Applicant
