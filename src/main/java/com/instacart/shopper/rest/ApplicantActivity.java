@@ -3,6 +3,7 @@ package com.instacart.shopper.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -88,6 +90,18 @@ public class ApplicantActivity {
         return applicantDAO.getApplicantByEmail(applicantEmail);
     }
 
+    @GET
+    @Path(RESOURCE_APPLICANT_PATH + "funnel.json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Map<String, Integer>> getApplicantsFunnelReport(
+            @QueryParam("start_date") String startDate, @QueryParam("end_date") String endDate)
+            throws SQLException {
+
+        log.info("Request to get the applicant funnel report between dates {} and {}", startDate, endDate);
+
+        return applicantDAO.getApplicantFunnelReport(startDate, endDate);
+    }
+
     @PATCH
     @Path(RESOURCE_APPLICANT_PATH + "{email}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -96,41 +110,10 @@ public class ApplicantActivity {
 
         log.info("Request to update the applicant with email {}", applicantEmail);
 
-        Applicant dbApplicant = applicantDAO.getApplicantByEmail(applicantEmail);
-
-        dbApplicant = applyUpdates(dbApplicant, applicant);
-        dbApplicant.setEmail(applicantEmail);
-        dbApplicant.setUpdatedAt(ISO_DATE_TIME_FORMATTER.print(System.currentTimeMillis()));
-
-        applicantDAO.updateApplicant(dbApplicant);
+        applicant.setUpdatedAt(ISO_DATE_TIME_FORMATTER.print(System.currentTimeMillis()));
+        applicantDAO.updateApplicant(applicantEmail, applicant);
 
         return Response.ok().build();
-    }
-
-    private Applicant applyUpdates(Applicant dbApplicant, Applicant requestApplicant) {
-        if (requestApplicant.getFirstName() != null) {
-            dbApplicant.setFirstName(requestApplicant.getFirstName());
-        }
-
-        if (requestApplicant.getLastName() != null) {
-            dbApplicant.setLastName(requestApplicant.getLastName());
-        }
-
-        if (requestApplicant.getRegion() != null) {
-            dbApplicant.setRegion(requestApplicant.getRegion());
-        }
-
-        if (requestApplicant.getPhone() != null) {
-            dbApplicant.setPhone(requestApplicant.getPhone());
-        }
-
-        if (requestApplicant.getPhoneType() != null) {
-            dbApplicant.setPhoneType(requestApplicant.getPhoneType());
-        }
-
-        dbApplicant.setOver21(requestApplicant.isOver21());
-
-        return dbApplicant;
     }
 
     private String constructApplicantURI(String applicantId) {
