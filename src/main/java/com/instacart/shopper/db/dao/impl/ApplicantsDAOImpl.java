@@ -109,7 +109,7 @@ public class ApplicantsDAOImpl implements ApplicantsDAO {
     }
 
     @Override
-    public void updateApplicant(String email, Applicant applicant) throws SQLException {
+    public void updateApplicant(String email, Applicant applicant) throws EntityNotFoundException, SQLException {
 
         log.trace("Updating details for applicant " + applicant);
 
@@ -125,9 +125,9 @@ public class ApplicantsDAOImpl implements ApplicantsDAO {
                 if (result.next()) {
                     dbApplicant = constructApplicant(result);
                 } else {
-                    // Silently return without any exception to leak data
                     log.info("Applicant with email {} not found for update.", email);
-                    return;
+
+                    throw new EntityNotFoundException("Applicant with email " + email + " not found.");
                 }
             }
 
