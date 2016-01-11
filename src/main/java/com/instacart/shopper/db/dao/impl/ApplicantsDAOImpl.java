@@ -174,7 +174,13 @@ public class ApplicantsDAOImpl implements ApplicantsDAO {
 
             log.info("Creating index on table applicants (email)");
 
-            try (PreparedStatement stmt = conn.prepareStatement(CREATE_UNIQUE_INDEX_ON_EMAIL_QUERY)) {
+            try (PreparedStatement stmt = conn.prepareStatement(CREATE_INDEX_ON_EMAIL_QUERY)) {
+                stmt.executeUpdate();
+            }
+
+            log.info("Creating index on table applicants (created_at)");
+
+            try (PreparedStatement stmt = conn.prepareStatement(CREATE_INDEX_ON_CREATED_AT_QUERY)) {
                 stmt.executeUpdate();
             }
         }
@@ -184,9 +190,15 @@ public class ApplicantsDAOImpl implements ApplicantsDAO {
     public void deleteTable() throws SQLException {
         try (Connection conn = SQLiteDataSource.INSTANCE.getConnection()) {
 
+            log.info("Deleting index on table applicants (created_at)");
+
+            try (PreparedStatement stmt = conn.prepareStatement(DELETE_INDEX_ON_CREATED_AT_QUERY)) {
+                stmt.executeUpdate();
+            }
+
             log.info("Deleting index on table applicants (email)");
 
-            try (PreparedStatement stmt = conn.prepareStatement(DELETE_UNIQUE_INDEX_ON_EMAIL_QUERY)) {
+            try (PreparedStatement stmt = conn.prepareStatement(DELETE_INDEX_ON_EMAIL_QUERY)) {
                 stmt.executeUpdate();
             }
 

@@ -21,8 +21,11 @@ public interface ApplicantsDAO {
             + " source VARCHAR, over_21 BOOLEAN, reason TEXT, workflow_state VARCHAR,"
             + " created_at TEXT NOT NULL, updated_at TEXT NOT NULL)";
 
-    String CREATE_UNIQUE_INDEX_ON_EMAIL_QUERY = "CREATE UNIQUE INDEX IF NOT EXISTS index_applicants_email"
+    String CREATE_INDEX_ON_EMAIL_QUERY = "CREATE UNIQUE INDEX IF NOT EXISTS index_applicants_email"
             + " ON applicants (email)";
+
+    String CREATE_INDEX_ON_CREATED_AT_QUERY = "CREATE INDEX IF NOT EXISTS index_applicants_created_at"
+            + " ON applicants (created_at)";
 
     String INSERT_ITEM_QUERY = "INSERT INTO applicants (first_name, last_name, region, phone,"
             + " email, phone_type, source, over_21, reason, workflow_state, created_at, updated_at)"
@@ -40,7 +43,9 @@ public interface ApplicantsDAO {
             + " WHERE STRFTIME('%Y-%m-%d', created_at) >= DATE(?) AND STRFTIME('%Y-%m-%d', created_at) < DATE(?)"
             + " GROUP BY week_start, workflow_state";
 
-    String DELETE_UNIQUE_INDEX_ON_EMAIL_QUERY = "DROP INDEX IF EXISTS index_applicants_email";
+    String DELETE_INDEX_ON_CREATED_AT_QUERY = "DROP INDEX IF EXISTS index_applicants_created_at";
+
+    String DELETE_INDEX_ON_EMAIL_QUERY = "DROP INDEX IF EXISTS index_applicants_email";
 
     String DELETE_TABLE_QUERY = "DROP TABLE IF EXISTS applicants";
 

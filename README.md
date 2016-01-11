@@ -16,7 +16,9 @@ $ mvn clean compile
 
 ```bash
 $ mvn exec:java -Dexec.mainClass=com.instacart.shopper.SeedDatabase
-```
+``
+
+The seed operation uses the sample data from the challenge question description (under part2's funnel report).
 
 ### Start the service
 
