@@ -1,7 +1,5 @@
 package com.instacart.shopper.db.model;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +25,7 @@ public class Applicant {
     private String source;
     private boolean over21;
     private String reason;
-    private String status;
-    private Date createdAt;
-    private Date updatedAt;
+    private ApplicantStatus status;
+    private String createdAt;
+    private String updatedAt;
 }
