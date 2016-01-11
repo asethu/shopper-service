@@ -13,7 +13,7 @@ import java.net.URI;
  */
 public class ServiceMain {
     public static String SERVICE_HOST = "localhost";
-    public static String SERVICE_PORT = "9090";
+    public static String SERVICE_PORT = "9000";
     public static String ENDPOINT_URI_PATTERN = "http://%s:%s/";
 
     // Base URI the Grizzly HTTP server will listen on
